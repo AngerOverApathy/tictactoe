@@ -5,6 +5,8 @@ let boxes = Array.from(document.getElementsByClassName('box'))
 const X_SYMBOL = 'X'
 const O_SYMBOL = 'O'
 
+let spaces = Array(9).fill(null)
+
 const winningCombo = [
     [0,1,2],
     [3,4,5],
@@ -16,13 +18,17 @@ const winningCombo = [
     [2,4,6]
 ]
 
-let spaces = Array(9).fill(null)
+
 let currentPlayer = X_SYMBOL
+
+let winnerStyle = getComputedStyle(document.body).getPropertyValue('--winner') //use css style in javascript
+
 
 const startGame = () => boxes.forEach(box => box.addEventListener('click', playGame)) 
 button.addEventListener('click', restartGame)    
 
 function playGame(el){
+    console.log(currentPlayer)
     const id = el.target.id
 
     if(!spaces[id]){
@@ -32,7 +38,16 @@ function playGame(el){
         currentPlayer = currentPlayer == X_SYMBOL ? O_SYMBOL : X_SYMBOL
 
         if(playerHasWon() !== false){
-            player = `${currentPlayer} has won!`
+            if (currentPlayer == O_SYMBOL){
+                player.innerHTML = "X Player has won!";
+                    }else{
+                player.innerHTML = "O Player has won!";
+            } 
+
+            let winner = playerHasWon()
+
+            winner.map(box => boxes[box].style.backgroundColor=winnerStyle)
+            return
         }
 
     }
@@ -54,11 +69,12 @@ function restartGame(){
 
    boxes.forEach( box => {
     box.innerText = ''
+    box.style.backgroundColor = ''
 
     currentPlayer = X_SYMBOL
-   })
+    })
 
-   player = 'Tic Tac Toe'
+    player.innerText = 'Tic Tac Toe'
 }
 
 startGame()
