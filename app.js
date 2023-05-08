@@ -8,7 +8,8 @@ const O_SYMBOL = 'O'
 let spaces = Array(9).fill(null)
 let currentPlayer = X_SYMBOL
 
-const startGame = () => boxes.forEach(box => box.addEventListener('click', playGame))     
+const startGame = () => boxes.forEach(box => box.addEventListener('click', playGame)) 
+button.addEventListener('click', restartGame)    
 
 function playGame(el){
     const id = el.target.id
@@ -19,6 +20,16 @@ function playGame(el){
 
         currentPlayer = currentPlayer == X_SYMBOL ? O_SYMBOL : X_SYMBOL
     }
+}
+
+function restartGame(){
+   spaces.fill(null) 
+
+   boxes.forEach( box => {
+    box.innerText = ''
+   })
+
+   currentPlayer = X_SYMBOL
 }
 
 startGame()
